@@ -1,0 +1,2 @@
+This is writinh file using fsPromises
+ this is new file appender

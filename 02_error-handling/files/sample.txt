@@ -1,0 +1,1 @@
+This is a simple nodejs project where we are learning about the path and fs module
