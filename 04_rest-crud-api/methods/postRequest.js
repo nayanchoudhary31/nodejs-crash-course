@@ -5,8 +5,8 @@ module.exports = async (req, resp) => {
 
     if (req.url === "/api/movies/") {
         try {
-            let body = await bodyparser(req);
-            body.id = crypto.randomUUID();
+            let body = await bodyparser(req); // Parse the request 
+            body.id = crypto.randomUUID(); // generate the uuid
             req.movies.push(body);
             writeFile(req.movies)
             resp.writeHead(201, { "Content-Type": "application/json" });
