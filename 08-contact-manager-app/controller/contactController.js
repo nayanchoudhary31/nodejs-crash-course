@@ -1,16 +1,23 @@
 const asyncHandler = require('express-async-handler');
+const Contact = require('../models/contactModel');
 //@desc Get all the contacts
 //@route /api/contacts
 //@access public
 const getContact = asyncHandler(async (req, resp) => {
-    resp.status(200).json({ message: `Get all contacts` })
+    const contact = await Contact.find();
+    resp.status(200).json(contact)
 })
 
 //@desc Get contact by Id
 //@route /api/contacts/:id
 //@access public
 const getContactById = asyncHandler(async (req, resp) => {
-    resp.status(200).json({ message: `Get contact by Id ${req.params.id}` })
+    const contact = await Contact.findById(req.params.id);
+    if (!contact) {
+        resp.status(404);
+        throw new Error("Contact Not Found");
+    }
+    resp.status(200).json(contact)
 })
 
 //@desc Create new contact
@@ -23,7 +30,14 @@ const createContact = asyncHandler(async (req, resp) => {
         throw new Error("All fields are mandatory")
     }
 
-    resp.status(200).json({ message: `New contract created` })
+
+    const contact = await Contact.create({
+        name,
+        email,
+        phone
+    })
+
+    resp.status(200).json(contact)
 })
 
 
@@ -31,14 +45,28 @@ const createContact = asyncHandler(async (req, resp) => {
 //@route/api/contacts/:id
 //@access public
 const updateContactById = asyncHandler(async (req, resp) => {
-    resp.status(200).json({ message: `Update contact by Id ${req.params.id}` })
+    const contact = await Contact.findById(req.params.id);
+
+    if (!contact) {
+        resp.status(404);
+        throw new Error("Contact Not Found");
+    }
+
+    const updatedContact = await Contact.findByIdAndUpdate(req.params.id, req.body, { new: true })
+    resp.status(200).json(updatedContact)
 })
 
 //@desc Delete contact by Id
 //@route/api/contacts/:id
 //@access public
 const deleteContactById = asyncHandler(async (req, resp) => {
-    resp.status(200).json({ message: `Delete contact by Id ${req.params.id}` })
+    const contact = await Contact.findById(req.params.id);
+    if (!contact) {
+        resp.status(404);
+        throw new Error("Contact Not Found");
+    }
+    await Contact.findByIdAndRemove(req.params.id);
+    resp.status(200).json(contact);
 })
 
 
