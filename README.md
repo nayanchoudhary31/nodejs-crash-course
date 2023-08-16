@@ -14,7 +14,7 @@ This repo is for anyone who want to learn nodejs and express. It cover topic lik
 
 ## Tech Stack
 
-**Server:** Node, Express
+**Server:** Nodejs, Express
 
 
 ## Environment Variables
